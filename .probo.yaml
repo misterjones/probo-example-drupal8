@@ -1,0 +1,16 @@
+image: proboci/ubuntu-14.04-lamp:7.1-beta
+- name: Update Composer
+    command: '/usr/local/bin/composer self-update'
+  - name: Set composer depdency branch.
+    command: 'composer config -d /src/docroot/ repositories.drupal composer https://packages.drupal.org/8'
+  - name: Install composer packages with dependencies.
+    command: 'composer install -d /src/docroot/'
+  - name: Probo site setup
+    plugin: Drupal
+    clearCaches: false
+    subDirectory: docroot
+    settingsRequireFile: site-settings.php
+    drupalVersion: 8
+    configSyncDirectory: config/sync
+- name: Run install
+    command: "drush site-install --root=/var/www/html bear --db-url='mysqli://root:strongpassword@localhost/bear'"
