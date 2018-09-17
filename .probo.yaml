@@ -1,4 +1,4 @@
-image: proboci/ubuntu-14.04-lamp:7.1-beta
+image: proboci/ubuntu-14.04-lamp:php-7.1
 - name: Update Composer
     command: '/usr/local/bin/composer self-update'
   - name: Set composer depdency branch.
