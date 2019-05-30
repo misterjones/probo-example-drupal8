@@ -1,5 +1,5 @@
 image: proboci/ubuntu-14.04-lamp:php-7.1
-- name: Update Composer
+- name: Update Compose
     command: '/usr/local/bin/composer self-update'
   - name: Set composer depdency branch.
     command: 'composer config -d /src/docroot/ repositories.drupal composer https://packages.drupal.org/8'
