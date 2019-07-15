@@ -1,16 +1,23 @@
-image: proboci/ubuntu-14.04-lamp:php-7.1
-- name: Update Composer
-    command: '/usr/local/bin/composer self-update'
-  - name: Set composer depdency branch.
-    command: 'composer config -d /src/docroot/ repositories.drupal composer https://packages.drupal.org/8'
-  - name: Install composer packages with dependencies.
-    command: 'composer install -d /src/docroot/'
-  - name: Probo site setup
+image: proboci/ubuntu-16.04-lamp:php-7.2
+steps:
+  - name: Download Drupal 8 Core latest.
+    plugin: Script
+    script: |
+      composer create-project drupal-composer/drupal-project:8.x-dev /tmp/src --no-interaction
+      cp -Rf /tmp/src/* /src
+      cd /src
+      composer require drupal/devel drush/drush cweagans/composer-patches
+      composer install
+  - name: Drupal site install.
     plugin: Drupal
     clearCaches: false
-    subDirectory: docroot
-    settingsRequireFile: site-settings.php
+    subDirectory: web
     drupalVersion: 8
-    configSyncDirectory: config/sync
-- name: Run install
-    command: "drush site-install --root=/var/www/html bear --db-url='mysqli://root:strongpassword@localhost/bear'"
+  - name: Install Drupal site.
+    plugin: Script
+    script: |
+      vendor/drush/drush/drush site-install -y --root=/var/www/html standard --db-url='mysqli://root:strongpassword@localhost/drupal'
+  - name: Generate login link.
+    plugin: Script
+    script: |
+      vendor/drush/drush/drush uli
