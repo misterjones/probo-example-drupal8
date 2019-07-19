@@ -1,6 +1,6 @@
 image: proboci/ubuntu-16.04-lamp:php-7.2
 steps:
-  - name: Download Drupal 8 Core latest.
+  - name: Download Drupal 8 Core latest version.
     plugin: Script
     script: |
       composer create-project drupal-composer/drupal-project:8.x-dev /tmp/src --no-interaction
