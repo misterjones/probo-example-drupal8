@@ -21,3 +21,6 @@ steps:
     plugin: Script
     script: |
       vendor/drush/drush/drush uli
+  - name: Test Connection
+    plugin: Shell
+    command: 'echo "I exist to make a Pull Request!"'
